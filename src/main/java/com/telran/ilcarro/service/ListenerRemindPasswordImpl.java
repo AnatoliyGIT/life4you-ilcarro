@@ -43,7 +43,7 @@ public class ListenerRemindPasswordImpl implements ListenerRemindPassword {
             list.add(LocalDateTime.now());
             listener.get().setRemind_time(list);
         }
-        if (listener.isEmpty()){
+        if (!listener.isPresent()){
             list.add(LocalDateTime.now());
            listener = Optional.ofNullable(ListenerRemind.builder().email(email).remind_time(list).build());
         }

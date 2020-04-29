@@ -114,7 +114,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     private boolean isUserUsedAuto(User user, String serial_number) {
-        return user.getBookedCars().stream().filter(bookedCars -> bookedCars.getSerial_number()
-                .equals(serial_number)).findFirst().isEmpty();
+        return !user.getBookedCars().stream().filter(bookedCars -> bookedCars.getSerial_number()
+                .equals(serial_number)).findFirst().isPresent();
     }
 }

@@ -116,8 +116,8 @@ public final class Utils {
                 (carDate.getStart_date_time()).isAfter(start_date_time)
                         && (carDate.getStart_date_time().isBefore(end_date_time))
         ).findFirst();
-        return (bookedPeriodDtoUser.isEmpty() && bookedPeriodDtoCar.isEmpty()
-                && reservedPeriodDtoCar.isEmpty() && reservedPeriodDtoUser.isEmpty());
+        return (!bookedPeriodDtoUser.isPresent() && !bookedPeriodDtoCar.isPresent()
+                && !reservedPeriodDtoCar.isPresent() && !reservedPeriodDtoUser.isPresent());
     }
 
     public static boolean validationReservedPeriods(ArrayList<ReservedPeriod> reservedPeriods, Car car) {

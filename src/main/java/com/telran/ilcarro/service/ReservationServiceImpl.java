@@ -29,9 +29,9 @@ public class ReservationServiceImpl implements ReservationService {
     final HashMap<String, Timer> timerHashMap = new HashMap<>();
     final ConcurrentHashMap<String, Reservation> reservationHashMap = new ConcurrentHashMap<>();
     ReentrantLock locker = new ReentrantLock();
-    private CarRepository carRepository;
-    private TokenService tokenService;
-    private UserRepository userRepository;
+    private final CarRepository carRepository;
+    private final TokenService tokenService;
+    private final UserRepository userRepository;
 
     @Autowired
     public ReservationServiceImpl(CarRepository carRepository
@@ -180,7 +180,7 @@ public class ReservationServiceImpl implements ReservationService {
             User owner = userRepository.findUserByEmail(car.getOwner().getEmail());
             Car carOwner = owner.getOwnerCars().stream()
                     .filter(carOwn -> carOwn.getSerial_number()
-                            .equals(car.getSerial_number())).findFirst().orElseThrow();
+                            .equals(car.getSerial_number())).findFirst().orElseThrow(() -> new NotFoundException(""));
             ArrayList<BookedPeriod> bookedPeriodsOwner = carOwner.getBooked_periods();
             bookedPeriodsOwner.add(bookedPeriod);
             carOwner.setBooked_periods(bookedPeriodsOwner);
@@ -215,14 +215,14 @@ public class ReservationServiceImpl implements ReservationService {
             @Override
             public void run() {
                 if (count == 300) {
-                    Car car = carRepository.findById(serialNumber).orElseThrow();
+                    Car car = carRepository.findById(serialNumber).orElseThrow(() -> new NotFoundException(""));
                     User owner = userRepository.findUserByEmail(car.getOwner().getEmail());
                     ArrayList<BookedPeriod> bookedPeriods = car.getBooked_periods();
                     bookedPeriods.removeIf(period -> period.getOrder_id().equals(bookedId));
                     car.setBooked_periods(bookedPeriods);
                     carRepository.save(car);
                     Car carOwner = owner.getOwnerCars().stream().filter(c -> c.getSerial_number()
-                            .equals(car.getSerial_number())).findFirst().orElseThrow();
+                            .equals(car.getSerial_number())).findFirst().orElseThrow(() -> new NotFoundException(""));
                     carOwner.getBooked_periods().removeIf(bookedPeriod -> bookedPeriod
                             .getOrder_id().equals(bookedId));
                     owner.getOwnerCars().removeIf(c -> c.getSerial_number()

@@ -350,7 +350,7 @@ public class CarServiceImpl implements CarService {
                     car.getStatistics().setTrips(tripNew);
                     User owner = userRepository.findUserByEmail(car.getOwner().getEmail());
                     Car carOwner = owner.getOwnerCars().stream().filter(c -> c.getSerial_number()
-                            .equals(car.getSerial_number())).findFirst().orElseThrow();
+                            .equals(car.getSerial_number())).findFirst().orElseThrow(() -> new NotFoundException(""));
                     carOwner.getStatistics().setTrips(tripNew);
                     carRepository.save(car);
                     userRepository.save(owner);
