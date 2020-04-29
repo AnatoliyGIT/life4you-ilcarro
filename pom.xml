@@ -16,7 +16,7 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <http.port>8090</http.port>
+<!--        <http.port>8090</http.port>-->
         <spring-cloud.version>Hoxton.SR4</spring-cloud.version>
     </properties>
 
