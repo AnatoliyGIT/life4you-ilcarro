@@ -2,7 +2,6 @@ package com.telran.ilcarro.controller;
 
 import com.itextpdf.text.DocumentException;
 import com.telran.ilcarro.exception.*;
-import com.telran.ilcarro.model.dto.car.CarFullDto;
 import com.telran.ilcarro.model.dto.user.BookedCarsDtoForUser;
 import com.telran.ilcarro.model.dto.user.RegistrationDto;
 import com.telran.ilcarro.model.dto.user.UserBaseDto;
